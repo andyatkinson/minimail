@@ -8,13 +8,14 @@ class Mail
     @subject = params[:subject] || ""
     @body = params[:body] || ""
     @attachments = encode_attachments? && params[:attachments] ? process_attachments(params[:attachments]) : nil
-    
+  end
+  
+  def send
     if @attachments
       IO.popen("echo #{@body} | (#{@attachments}) | #{mail_command} -s '#{@subject}' #{@recipients}")
     else
       IO.popen("echo #{@body} | #{mail_command} -s '#{@subject}' #{@recipients}")
     end
-    
   end
   
   def mail_command
