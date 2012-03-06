@@ -7,10 +7,13 @@ class Mail
     @recipients = params[:recipients] || []
     @subject = params[:subject] || ""
     @body = params[:body] || ""
-    @attachments = encode_attachments? && params[:attachments] ? process_attachments(params[:attachments]) : nil
+    @attachments = if encode_program? && params[:attachments]
+      process_attachments( [params[:attachments]].flatten )
+    end
   end
   
-  def send
+  def deliver
+    return unless valid?
     if @attachments
       IO.popen("echo #{@body} | (#{@attachments}) | #{mail_command} -s '#{@subject}' #{@recipients}")
     else
@@ -23,16 +26,20 @@ class Mail
     return '/bin/mail' if command?('/bin/mail')
   end
   
-  def process_attachments(filenames = "")
-    return unless encode_attachments?
-    return unless File.directory?('/tmp')
-    filenames.split(',').map{|f| "/usr/bin/uuencode #{f} /tmp/#{f}"}.join(';')
+  def process_attachments(files)
+    return unless encode_program?
+    return "Error reading /tmp dir" unless File.directory?('/tmp')
+    files.map{|f| "/usr/bin/uuencode #{f} /tmp/#{File.basename(f)}"}.join(';')
+  end
+  
+  def valid?
+    @recipients.empty? ? false : true
   end
   
   private
   
-    def encode_attachments?
-      command?('/usr/bin/uuencode') ? true : "No encode program"
+    def encode_program?
+      command?('/usr/bin/uuencode')
     end
     
     def mail_program?
