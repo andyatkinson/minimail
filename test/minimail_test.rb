@@ -16,9 +16,6 @@ class Minimail::MailTest < MiniTest::Unit::TestCase
     assert_equal body, mail.instance_variable_get(:@body)
   end
   
-  def test_can_prepare_simple_mail_with_multiple_recipients
-  end
-  
   def test_can_prepare_a_minimail_with_a_single_attachment
     subject = "Check this out!"
     recipients = "jane@example.com"
