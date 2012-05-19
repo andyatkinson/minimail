@@ -32,6 +32,12 @@ Usage
     # Include an attachment
     Minimail::Mail.new(:subject => "check this attachment", :recipients => "bob@example.com", :attachments => File.join(Dir.pwd, 'test', 'fake_attachment.txt')).deliver
 
+Run tests
+=========
+  
+  # clone source
+  # bundle (make sure bundler "test" group gems are installed)
+  rake
 
 Debugging
 =========
