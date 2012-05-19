@@ -35,9 +35,9 @@ Usage
 Run tests
 =========
   
-  # clone source, setup ruby and gemset (I use RVM). rvm use 1.8.7; rvm gemset create minimail; rvm gemset use minimail
-  # gem install bundler && bundle (make sure bundler "test" group gems are installed)
-  rake # as of this writing: 6 tests, 11 assertions, 0 failures, 0 errors, 0 skips
+    # clone source, setup ruby and gemset (I use RVM). rvm use 1.8.7; rvm gemset create minimail; rvm gemset use minimail
+    # gem install bundler && bundle (make sure bundler "test" group gems are installed)
+    rake # as of this writing: 6 tests, 11 assertions, 0 failures, 0 errors, 0 skips
 
 Debugging
 =========
@@ -46,8 +46,8 @@ but was able to send using my cellular 3G connection (also Verizon) while tether
 
 The mail will also likely show up in the spam folder.
 
-  # on OS X tail the mail log file
-  tail -f /var/log/mail.log
+    # on OS X tail the mail log file
+    tail -f /var/log/mail.log
 
 Credits
 =======
