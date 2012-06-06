@@ -28,9 +28,17 @@ module Minimail
     def deliver
       return unless valid?
       if @attachments
-        IO.popen("echo #{@body} | (#{@attachments}) | #{mail_command} -s '#{@subject}' #{@recipients}")
+        IO.popen("(#{@attachments}) | #{mail_command} -s '#{@subject}' #{@recipients}", "w") do |io|
+          io.write @body
+          io.close_write
+          io
+        end
       else
-        IO.popen("echo #{@body} | #{mail_command} -s '#{@subject}' #{@recipients}")
+        IO.popen("#{mail_command} -s '#{@subject}' #{@recipients}", "w") do |io|
+          io.write @body
+          io.close_write
+          io
+        end
       end
     end
   

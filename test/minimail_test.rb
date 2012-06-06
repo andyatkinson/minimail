@@ -35,8 +35,7 @@ class Minimail::MailTest < MiniTest::Unit::TestCase
   end
   
   def test_can_deliver_a_mail
-    recipients = "jane@example.com"
-    mail = Minimail::Mail.new(:recipients => recipients)
+    mail = Minimail::Mail.new(:recipients => "jane@example.com", :body => "check this out")
     assert_equal IO, mail.deliver.class
   end
   
