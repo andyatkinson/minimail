@@ -21,12 +21,13 @@ module Minimail
       @recipients = recipients
     end
   
-    def body(body = nil)
+    def body(body = '')
       @body = body
     end
   
     def deliver
-      return unless valid?
+      return "Invalid mail contents" unless valid?
+      return "Invalid mail command" unless mail_command
       if @attachments
         IO.popen("(#{@attachments}) | #{mail_command} -s '#{@subject}' #{@recipients}", "w") do |io|
           io.write @body

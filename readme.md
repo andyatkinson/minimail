@@ -1,12 +1,11 @@
-Minimail sends emails. I use it to send notification emails to myself from scripts. `/usr/bin/mail -s 'hi there' bob@example.com` can be called from a shell script as well, Minimail just wraps that. Minimail wraps command-line code with descriptive method and variable names and test code, to make maintenance easier. Minimail makes it easier to share this functionality between projects thanks to Rubygems and bundler.
+Minimail sends emails (using `mail` with attachments using `uuencode`).
 
 Installation
 =========
 
 With bundler
 ------------
-    
-    # gem install bundler
+
     gem 'minimail'
     bundle
     
@@ -18,10 +17,10 @@ Without bundler
 Usage
 =====
 
-    # Send an email (one-liner)
-    Minimail::Mail.new(:subject => "check it!", :recipients => "bob@example.com").deliver
+    # Send an email in one line
+    Minimail::Mail.new(:subject => "[app] Background job is complete", :recipients => "engineer@example.com").deliver
     
-    # Or do the same with a DSL style
+    # Or use a DSL style
     m = Minimail::Mail.new
     m.draft do
       subject "check it!"
@@ -29,24 +28,21 @@ Usage
     end
     m.deliver
     
-    # Include an attachment
-    Minimail::Mail.new(:subject => "check this attachment", :recipients => "bob@example.com", :attachments => File.join(Dir.pwd, 'test', 'fake_attachment.txt')).deliver
+    # Add an attachment
+    Minimail::Mail.new(:subject => "[app] Success", :recipients => "engineer@example.com", :attachments => File.join(Dir.pwd, 'test', 'fake_attachment.txt')).deliver
 
 Run tests
 =========
   
-    # clone source, setup ruby and gemset (I use RVM). rvm use 1.8.7; rvm gemset create minimail; rvm gemset use minimail
-    # gem install bundler && bundle (make sure bundler "test" group gems are installed)
-    rake # as of this writing: 6 tests, 11 assertions, 0 failures, 0 errors, 0 skips
+    # With RVM, `rvm use 1.8.7 && rvm gemset create minimail && rvm gemset use minimail`
+    rake
 
 Debugging
 =========
-Some ISPs will block the SMTP port or black-list IP addresses. I was not able to send on a Verizon ISP connection for home,
-but was able to send using my cellular 3G connection (also Verizon) while tethered.
+Some ISPs will block the SMTP port or black-list IP addresses. I was not able to send on a Verizon connection at home, but was able to send using cellular connections (AT&T and Verizon) while tethered.
 
-The mail will also likely show up in the spam folder.
+With gmail, the test mails show up in the spam folder. To check your mail log file on OS X:
 
-    # on OS X tail the mail log file
     tail -f /var/log/mail.log
 
 Credits

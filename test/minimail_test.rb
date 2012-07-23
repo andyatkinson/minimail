@@ -41,8 +41,8 @@ class Minimail::MailTest < MiniTest::Unit::TestCase
   
   def test_ensure_mail_is_not_valid_unless_recipient_is_specified
     mail = Minimail::Mail.new()
-    assert_nil mail.deliver
     assert !mail.valid?
+    assert_equal "Invalid mail contents", mail.deliver
   end
   
   def test_can_create_a_minimail_with_dsl_style
@@ -55,5 +55,11 @@ class Minimail::MailTest < MiniTest::Unit::TestCase
     assert_equal "check it!", m.instance_variable_get(:@subject)
     assert_equal "bob@example.com", m.instance_variable_get(:@recipients)
     assert_equal "cool stuff", m.instance_variable_get(:@body)
+  end
+  
+  def test_mail_has_empty_string_body_if_none_provided
+    recipients = "jane@example.com"
+    mail = Minimail::Mail.new(:recipients => recipients)
+    assert_equal '', mail.body
   end
 end
