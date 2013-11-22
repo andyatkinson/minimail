@@ -1,11 +1,8 @@
-require 'rubygems'
 require 'minitest/autorun'
 require 'base64'
-
-$:.unshift File.expand_path("../../lib", __FILE__)
 require 'minimail'
 
-class Minimail::MailTest < MiniTest::Unit::TestCase
+class MinimailTest < MiniTest::Test
   def test_that_a_minimail_can_be_initialized_with_typical_email_attributes
     subject = "Check this out!"
     recipients = "jane@example.com"
